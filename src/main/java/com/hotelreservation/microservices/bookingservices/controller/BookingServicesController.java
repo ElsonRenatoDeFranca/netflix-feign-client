@@ -1,9 +1,8 @@
 package com.hotelreservation.microservices.bookingservices.controller;
 
-import com.hotelreservation.microservices.bookingservices.entity.Room;
+import com.hotelreservation.microservices.bookingservices.exceptions.RoomNotFoundException;
 import com.hotelreservation.microservices.bookingservices.services.IBookingBusinessService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.hotelreservation.microservices.bookingservices.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +17,29 @@ import java.util.List;
  * Created by e068635 on 6/25/2019.
  */
 @RestController
-@Api(value="bookingServices", description = "Data service operations on rooms", tags=("rooms"))
 public class BookingServicesController {
 
 
     @Autowired
-    private IBookingBusinessService bookingBusinessService;
+    private IBookingBusinessService service;
+
 
     @RequestMapping(method= RequestMethod.GET, value = "/rooms")
-    @ApiOperation(value="Get all rooms", notes="Gets all rooms in the system", nickname="getRooms")
-    public ResponseEntity<List<Room>> findAll(){
-        return new ResponseEntity<>(bookingBusinessService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<RoomVO>> findAll(){
+        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
     @RequestMapping(method=RequestMethod.GET,value="/rooms/{roomNumber}")
-    @ApiOperation(value="Get room by number", notes="Gets an specific number", nickname="getSpecificRoomNumber")
-    public ResponseEntity<Room> findRoomByNumber(@PathVariable String roomNumber) {
-        Room room = bookingBusinessService.getRoomByNumber(roomNumber);
-        return new ResponseEntity<>(room, HttpStatus.OK);
+    public ResponseEntity<RoomVO> findRoomByNumber(@PathVariable String roomNumber) {
+        try {
+            RoomVO roomVO = service.findByRoomNumber(roomNumber);
+            return new ResponseEntity<>(roomVO, HttpStatus.OK);
+
+        }catch(RoomNotFoundException roomNotFoundEx){
+            return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 

@@ -1,48 +1,30 @@
 package com.hotelreservation.microservices.bookingservices.services.impl;
 
-import com.hotelreservation.microservices.bookingservices.config.RestTemplateConfig;
-import com.hotelreservation.microservices.bookingservices.entity.Room;
+import com.hotelreservation.microservices.bookingservices.client.IRoomRemoteService;
+import com.hotelreservation.microservices.bookingservices.exceptions.RoomNotFoundException;
 import com.hotelreservation.microservices.bookingservices.services.IBookingBusinessService;
+import com.hotelreservation.microservices.bookingservices.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Created by e068635 on 6/25/2019.
+ * Created by e068635 on 6/28/2019.
  */
-@Service
 public class BookingBusinessServiceImpl implements IBookingBusinessService {
 
     @Autowired
-    private RestTemplateConfig restTemplateConfig;
-
-    @Value("${rooms.microservice.findall.url}")
-    private String allRoomsUrl;
-
-    @Value("${rooms.microservice.findone.url}")
-    private String onlyOneRoomUrl;
+    private IRoomRemoteService roomRemoteService;
 
 
     @Override
-    public List<Room> findAll(){
-        ResponseEntity<List<Room>> response = this.restTemplateConfig.getRestTemplate().exchange(allRoomsUrl, HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Room>>() {});
-        return response.getBody();
+    public List<RoomVO> findAll(){
+        return this.roomRemoteService.findAll().getBody();
     }
 
     @Override
-    public Room getRoomByNumber(String roomNumber) {
-        ResponseEntity<Room> responseEntity = this.restTemplateConfig.getRestTemplate().exchange(onlyOneRoomUrl + roomNumber, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), Room.class);
-        Room RoomResult = responseEntity.getBody();
-        return RoomResult;
+    public RoomVO findByRoomNumber(String roomNumber) throws RoomNotFoundException {
+        return this.roomRemoteService.retrieveRoomByNumber(roomNumber).getBody();
     }
-
 
 }
