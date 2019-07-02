@@ -6,11 +6,11 @@ import com.hotelreservation.microservices.bookingservices.vo.RoomVO;
 import java.util.List;
 
 /**
- * Created by e068635 on 6/28/2019.
+ * Created by e068635 on 6/25/2019.
  */
 public interface IBookingBusinessService {
 
     List<RoomVO> findAll();
 
-    RoomVO findByRoomNumber(String roomNumber)  throws RoomNotFoundException;
+    RoomVO getRoomByNumber(String roomNumber) throws RoomNotFoundException;
 }

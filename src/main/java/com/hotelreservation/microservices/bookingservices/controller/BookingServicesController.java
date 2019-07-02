@@ -21,25 +21,21 @@ public class BookingServicesController {
 
 
     @Autowired
-    private IBookingBusinessService service;
-
+    private IBookingBusinessService bookingBusinessService;
 
     @RequestMapping(method= RequestMethod.GET, value = "/rooms")
     public ResponseEntity<List<RoomVO>> findAll(){
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(bookingBusinessService.findAll(), HttpStatus.OK);
     }
 
     @RequestMapping(method=RequestMethod.GET,value="/rooms/{roomNumber}")
     public ResponseEntity<RoomVO> findRoomByNumber(@PathVariable String roomNumber) {
         try {
-            RoomVO roomVO = service.findByRoomNumber(roomNumber);
-            return new ResponseEntity<>(roomVO, HttpStatus.OK);
-
-        }catch(RoomNotFoundException roomNotFoundEx){
-            return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+            RoomVO room = bookingBusinessService.getRoomByNumber(roomNumber);
+            return new ResponseEntity<>(room, HttpStatus.OK);
+        } catch (RoomNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
 

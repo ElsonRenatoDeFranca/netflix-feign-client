@@ -5,26 +5,28 @@ import com.hotelreservation.microservices.bookingservices.exceptions.RoomNotFoun
 import com.hotelreservation.microservices.bookingservices.services.IBookingBusinessService;
 import com.hotelreservation.microservices.bookingservices.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Created by e068635 on 6/28/2019.
+ * Created by e068635 on 6/25/2019.
  */
-public class BookingBusinessServiceImpl implements IBookingBusinessService {
+@Service
+public class BookingBusinessServiceImpl implements IBookingBusinessService{
 
     @Autowired
     private IRoomRemoteService roomRemoteService;
 
-
     @Override
     public List<RoomVO> findAll(){
-        return this.roomRemoteService.findAll().getBody();
+        return roomRemoteService.findAll().getBody();
     }
 
     @Override
-    public RoomVO findByRoomNumber(String roomNumber) throws RoomNotFoundException {
-        return this.roomRemoteService.retrieveRoomByNumber(roomNumber).getBody();
+    public RoomVO getRoomByNumber(String roomNumber) throws RoomNotFoundException{
+        return roomRemoteService.retrieveRoomByNumber(roomNumber).getBody();
     }
+
 
 }
