@@ -97,3 +97,49 @@ Feign works by processing annotations into a templatized request. Arguments are 
 # Netflix Hystrix
 
 
+Hystrix is a latency and fault tolerance library designed to isolate points of access to remote systems, services and 3rd party libraries, stop cascading failure and enable resilience in complex distributed systems where failure is inevitable.
+
+
+# Basics
+
+1- Add the following dependency to the pom.xml file
+
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+	</dependency>
+		
+
+2- Add the fallback attribute to @FeignClient annotation
+
+    @FeignClient(value="ROOMSERVICES", fallback = RoomRemoteServiceFallback.class)
+       public interface IRoomRemoteService {
+
+       @RequestMapping(method= RequestMethod.GET, value = "api/rooms")
+       ResponseEntity<List<RoomVO>> findAll();
+
+       @RequestMapping(method=RequestMethod.GET,value="/api/rooms/{roomNumber}")
+       ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber)throws RoomNotFoundException;
+   }
+
+3- Add the implementation class where the exception scenarios will be handled:
+
+      @Service
+      public class RoomRemoteServiceFallback implements IRoomRemoteService {
+  
+      @Override
+      public ResponseEntity<List<RoomVO>> findAll() {
+        return ResponseEntity.ok(Collections.EMPTY_LIST);
+     }
+
+     @Override
+     public ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber) throws RoomNotFoundException {
+        RoomVO roomVO = new RoomVO();
+        roomVO.setBedInfo("01FKL-occupied");
+        roomVO.setName("BED-NAME-0000");
+        roomVO.setRoomNumber("0-Occupied-L000");
+        return ResponseEntity.ok(roomVO);
+    }
+ }
+
+
