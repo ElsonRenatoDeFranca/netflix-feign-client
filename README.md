@@ -1,6 +1,6 @@
-# netflix-feign-client
+This project shows how to use two main libraries from Netflix: Hystrix and Feign. Firstly we will display the usage of Feign and after that we will use Hystrix to provide a solution for circuit break.
 
-This project implements two main ideas brought by Netflix: Circuit breaker pattern and Feign.
+# Netflix Feign
 
 Feign is a Java to HTTP client binder inspired by Retrofit, JAXRS-2.0, and WebSocket. Feign's first goal was reducing the complexity of binding Denominator uniformly to HTTP APIs regardless of ReSTfulness.
 
@@ -69,5 +69,26 @@ Feign works by processing annotations into a templatized request. Arguments are 
 		SpringApplication.run(BookingBusinessServicesWebApplication.class, args);
 	     }
 	}
+	
+	@Service
+	public class BookingBusinessServiceImpl implements IBookingBusinessService{
+		@Autowired
+    	        private IRoomRemoteService roomRemoteService;
+
+    		@Override
+    		public List<RoomVO> findAll(){
+        		return roomRemoteService.findAll().getBody();
+    		}
+
+    		@Override
+    		public RoomVO getRoomByNumber(String roomNumber) throws RoomNotFoundException{
+        		return roomRemoteService.retrieveRoomByNumber(roomNumber).getBody();
+    		}
+	}
+
+
+
+
+# Netflix Hystrix
 
 
