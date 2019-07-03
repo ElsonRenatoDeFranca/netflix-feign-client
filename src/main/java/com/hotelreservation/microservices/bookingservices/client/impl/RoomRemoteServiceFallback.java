@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +22,10 @@ public class RoomRemoteServiceFallback implements IRoomRemoteService {
 
     @Override
     public ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber) throws RoomNotFoundException {
-        return ResponseEntity.ok(new RoomVO());
+        RoomVO roomVO = new RoomVO();
+        roomVO.setBedInfo("01FKL-occupied");
+        roomVO.setName("BED-NAME-0000");
+        roomVO.setRoomNumber("0-Occupied-L000");
+        return ResponseEntity.ok(roomVO);
     }
 }
