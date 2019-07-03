@@ -53,5 +53,13 @@ Feign works by processing annotations into a templatized request. Arguments are 
 	</dependencyManagement>
 
 		
-		
+	
+	@FeignClient(value="ROOMSERVICES", fallback = RoomRemoteServiceFallback.class)
+	public interface IRoomRemoteService {
+	    @RequestMapping(method= RequestMethod.GET, value = "api/rooms")
+	    ResponseEntity<List<RoomVO>> findAll();
+	    @RequestMapping(method=RequestMethod.GET,value="/api/rooms/{roomNumber}")
+	    ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber)throws RoomNotFoundException;
+	}
+
 
