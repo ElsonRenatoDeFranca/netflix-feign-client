@@ -52,7 +52,8 @@ Feign works by processing annotations into a templatized request. Arguments are 
 	   </dependencies>
 	</dependencyManagement>
 
-		
+	
+	2- Create an interface and annotate it with @FeignClient annotation and refer the service name you want to call, in this   	case,"RoomServices":
 	
 	@FeignClient(value="ROOMSERVICES")
 	public interface IRoomRemoteService {
@@ -62,6 +63,8 @@ Feign works by processing annotations into a templatized request. Arguments are 
 	    ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber)throws RoomNotFoundException;
 	}
 	
+	3- Annotate the main class with @EnableFeignClients:
+	
 	@SpringBootApplication
 	@EnableFeignClients
 	public class BookingBusinessServicesWebApplication {
@@ -69,6 +72,8 @@ Feign works by processing annotations into a templatized request. Arguments are 
 		SpringApplication.run(BookingBusinessServicesWebApplication.class, args);
 	     }
 	}
+	
+	4- Instantiate and refer to the remote service:
 	
 	@Service
 	public class BookingBusinessServiceImpl implements IBookingBusinessService{
