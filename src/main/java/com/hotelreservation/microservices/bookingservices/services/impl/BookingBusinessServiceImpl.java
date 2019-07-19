@@ -1,5 +1,6 @@
 package com.hotelreservation.microservices.bookingservices.services.impl;
 
+import com.hotelreservation.microservices.bookingservices.client.IGuestRemoteService;
 import com.hotelreservation.microservices.bookingservices.client.IRoomRemoteService;
 import com.hotelreservation.microservices.bookingservices.exceptions.RoomNotFoundException;
 import com.hotelreservation.microservices.bookingservices.services.IBookingBusinessService;
@@ -17,6 +18,9 @@ public class BookingBusinessServiceImpl implements IBookingBusinessService{
 
     @Autowired
     private IRoomRemoteService roomRemoteService;
+
+    @Autowired
+    private IGuestRemoteService guestRemoteService;
 
     @Override
     public List<RoomVO> findAll(){
