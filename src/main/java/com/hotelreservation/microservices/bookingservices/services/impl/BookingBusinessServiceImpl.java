@@ -4,6 +4,7 @@ import com.hotelreservation.microservices.bookingservices.client.IGuestRemoteSer
 import com.hotelreservation.microservices.bookingservices.client.IRoomRemoteService;
 import com.hotelreservation.microservices.bookingservices.exceptions.RoomNotFoundException;
 import com.hotelreservation.microservices.bookingservices.services.IBookingBusinessService;
+import com.hotelreservation.microservices.bookingservices.vo.GuestVO;
 import com.hotelreservation.microservices.bookingservices.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,14 +24,18 @@ public class BookingBusinessServiceImpl implements IBookingBusinessService{
     private IGuestRemoteService guestRemoteService;
 
     @Override
-    public List<RoomVO> findAll(){
-        return roomRemoteService.findAll().getBody();
+    public void checkIn(){
+        List<RoomVO> rooms = roomRemoteService.findAll().getBody();
+        List<GuestVO> guests = guestRemoteService.findAll().getBody();
+
     }
 
     @Override
-    public RoomVO getRoomByNumber(String roomNumber) throws RoomNotFoundException{
-        return roomRemoteService.retrieveRoomByNumber(roomNumber).getBody();
+    public void checkOut() {
+
     }
 
+
+   
 
 }

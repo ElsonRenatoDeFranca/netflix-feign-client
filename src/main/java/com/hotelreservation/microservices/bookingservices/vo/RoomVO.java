@@ -9,9 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomVO {
-
-    private String name;
     private String roomNumber;
     private String bedInfo;
-
 }

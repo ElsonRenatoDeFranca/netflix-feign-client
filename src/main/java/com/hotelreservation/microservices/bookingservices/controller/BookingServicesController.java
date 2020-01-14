@@ -25,7 +25,7 @@ public class BookingServicesController {
 
     @RequestMapping(method= RequestMethod.GET, value = "/rooms")
     public ResponseEntity<List<RoomVO>> findAll(){
-        return new ResponseEntity<>(bookingBusinessService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(bookingBusinessService..findAll(), HttpStatus.OK);
     }
 
     @RequestMapping(method=RequestMethod.GET,value="/rooms/{roomNumber}")

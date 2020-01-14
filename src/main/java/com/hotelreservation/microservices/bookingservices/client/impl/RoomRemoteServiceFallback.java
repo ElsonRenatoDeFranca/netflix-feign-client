@@ -24,7 +24,6 @@ public class RoomRemoteServiceFallback implements IRoomRemoteService {
     public ResponseEntity<RoomVO> retrieveRoomByNumber(@PathVariable String roomNumber) throws RoomNotFoundException {
         RoomVO roomVO = new RoomVO();
         roomVO.setBedInfo("01FKL-occupied");
-        roomVO.setName("BED-NAME-0000");
         roomVO.setRoomNumber("0-Occupied-L000");
         return ResponseEntity.ok(roomVO);
     }

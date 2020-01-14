@@ -12,9 +12,5 @@ public class GuestVO {
     private Long guestId;
     private String firstName;
     private String lastName;
-    private String emailAddress;
-    private String address;
-    private String state;
-    private String country;
-    private String phoneNumber;
+    private String email;
 }
